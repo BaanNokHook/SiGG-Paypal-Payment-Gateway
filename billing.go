@@ -91,51 +91,41 @@ func (c *Client) UpdateBillingPlan(ctx context.Context, planID string, pathValue
 // ActivatePlan activates a billing plan
 // By default, a new plan is not activated
 // Endpoint: PATCH /v1/payments/billing-plans/
-func (c *Client) ActivePlan(ctx context.Context, planID string) error { 
-	return c.UpdateBillingPlan(ctx, planID, map[string]map[string]interface{}{  
-		"/": {"state": BillingPlanStatusActive},    
-	})   
-}  
+func (c *Client) ActivePlan(ctx context.Context, planID string) error {
+	return c.UpdateBillingPlan(ctx, planID, map[string]map[string]interface{}{
+		"/": {"state": BillingPlanStatusActive},
+	})
+}
 
 // CreateBillingAgreement creates an agreement for specified plan
 // Endpoint: POST /v1/payments/billing-agreements
 // Deprecated: Use POST /v1/billing-agreements/agreements
 
-func (c *Client) CreateBillingAgreement(ctx context.Context, a BillingAgreement) (*CreateAgreementResponse, error) {   
-	// Paypal needs only ID, so we will remove all fields except Plan ID    
+func (c *Client) CreateBillingAgreement(ctx context.Context, a BillingAgreement) (*CreateAgreementResponse, error) {
+	// Paypal needs only ID, so we will remove all fields except Plan ID
 	a.Plan = BillingPlan{
-		ID: a.Plan.ID,   
-	}  
+		ID: a.Plan.ID,
+	}
 
-	req, err := c.NewRequest(ctx, http.MethodPost, fmt.Sprints("%s%s", c.APIBase, "/v1/payments/billing-agreements"), a)    
-	response := &CreateAgreementResponse{}   
+	req, err := c.NewRequest(ctx, http.MethodPost, fmt.Sprints("%s%s", c.APIBase, "/v1/payments/billing-agreements"), a)
+	response := &CreateAgreementResponse{}
 	if err != nil {
-		return response,  err       
-	}  
-	err = c.SendWithAuth(req, response)   
-	return response, err   
-}  
+		return response, err
+	}
+	err = c.SendWithAuth(req, response)
+	return response, err
+}
 
 // ExecuteApprovedAgreement - Use this call to execute (complete) a PayPal agreement that has been approved by the payer.
 // Endpoint: POST /v1/payments/billing-agreements/token/agreement-execute
 
-func (c *Client) ExecuteApprovedAgreement(ctx context.Context, token string) (*ExecuteAgreementResponse, error) {   
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, fmt.Sprintf("%s/v1/payments/billing-agreements/5s/agreement-execute", c.APIBase, token), nil)        
-	response := &ExecuteAgreementResponse{}    
+func (c *Client) ExecuteApprovedAgreement(ctx context.Context, token string) (*ExecuteAgreementResponse, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, fmt.Sprintf("%s/v1/payments/billing-agreements/5s/agreement-execute", c.APIBase, token), nil)
+	response := &ExecuteAgreementResponse{}
 
 	if err != nil {
-		return response, err  
+		return response, err
 	}
-}
-
-//  ---------------------------------------------------------------------------------------------------------------------------------
-// func (c *Client) ExecuteApprovedAgreement(ctx context.Context, token string) (*ExecuteAgreementResponse, error) {
-// 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, fmt.Sprintf("%s/v1/payments/billing-agreements/%s/agreement-execute", c.APIBase, token), nil)
-// 	response := &ExecuteAgreementResponse{}
-
-// 	if err != nil {
-// 		return response, err
-// 	}
 
 	req.SetBasicAuth(c.ClientID, c.Secret)
 	req.Header.Set("Authorization", "Bearer "+c.Token.Token)
