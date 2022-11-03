@@ -1,4 +1,4 @@
-package paypal
+package Paypal-Payment-Gateway
 
 import (
 	"bytes"
