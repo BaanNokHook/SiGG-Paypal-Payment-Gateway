@@ -1,4 +1,4 @@
-package Paypal-Payment-Gateway
+package Paypal
 
 import (
 	"context"
@@ -78,7 +78,7 @@ func (c *Client) CreateBillingAgreementFromToken(
 		ctx,   
 		"POST",
 		fmt.Sprintf("%s%s", c.APIBase, "/v1/billing-agreements/agreements"),   
-		createBARequest{TokenID: TokenID}) 
+		createBARequest{TokenID: TokenID}
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (c *Client) CreateBillingAgreementFromToken(
 	} 
 
 	return billingAgreement, nil
-}
+}}
 
 // CancelBillingAgreement - Use this call to cancel a billing agreement
 // Endpoint: POST /v1/billing-agreements/agreements/{agreement_id}/cancel
