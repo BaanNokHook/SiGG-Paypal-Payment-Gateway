@@ -1,4 +1,4 @@
-package paypal
+package Paypal
 
 import (
 	"bytes"
