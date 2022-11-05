@@ -184,7 +184,7 @@ func (c *Client) NewRequest(ctx context.Context, method, url string, payload int
 }
 
 // log will dump request and response to the log file
-func (c *Client) log(r *http.Request, resp *http.Response) {
+func (c *client) log(r *http.Request, resp *http.Response) {
 	if c.Log != nil {
 		var (
 			reqDump  string
