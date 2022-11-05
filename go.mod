@@ -1,4 +1,4 @@
-module github.com/plutov/Paypal-Payment-Gateway/v4
+module github.com/plutov/Paypal/v4
 
 go 1.13
 
