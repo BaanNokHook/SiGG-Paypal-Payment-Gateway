@@ -6,39 +6,39 @@ import (
 	"net/http"
 )
 
-type ( 
-	// Product struct 
-	Product struct{
-		ID 		string 		`json:"id.omitempty"`  
-		Name        string  		`json:"name"`   
-		Description string 		`json:"description,omitempty"`   
-		Category  	ProductCategory   `json:"category,omitempty"`   
-		Type 		ProductType   	`json:"type"`   
-		ImageUrl    string     		`json:"image_url,omitempty"`   
-		HomeUrl     string	      `json:"home_url,omitempty"`    
+type (
+	// Product struct
+	Product struct {
+		ID          string          `json:"id.omitempty"`
+		Name        string          `json:"name"`
+		Description string          `json:"description,omitempty"`
+		Category    ProductCategory `json:"category,omitempty"`
+		Type        ProductType     `json:"type"`
+		ImageUrl    string          `json:"image_url,omitempty"`
+		HomeUrl     string          `json:"home_url,omitempty"`
 	}
 
-	Create ProductResponse struct {  
-		Product 
-		SharedResponse 
-	}  
+	CreateProductResponse struct {
+		Product
+		SharedResponse
+	}
 
 	ListProductResponse struct {
-		Products []Product `json:"products"`   
-		SharedListResponse   
-	}   
+		Products []Product `json:"products"`
+		SharedListResponse
+	}
 
-	ProductListParameters struct { 
-		ListParams 
+	ProductListParameters struct {
+		ListParams
 	}
 )
 
 func (self *Product) GetUpdatePatch() []Patch {
-	return []Patch{  
+	return []Patch{
 		{
-			Operation:  "replace",  
-			Path:		"/description",  
-			Value:	self.Description,  
+			Operation: "replace",
+			Path:      "/description",
+			Value:     self.Description,
 		},
 		{
 			Operation: "replace",
